@@ -4,7 +4,7 @@ External URL Avatar Plugin Configuration
 
 Options:
 
-* `avatar.url` - the location of avatar images containing `%s`, which
+* `avatar.url` - the location of avatar images containing `${user}`, which
   will then be replaced by the `username`. Required.
 * `avatar.changeUrl` - the URL shown in Gerrit's user settings to tell
   the user, where the avatar can be changed. Optional.
@@ -17,7 +17,7 @@ Example (to be added to `etc/gerrit.config`):
 
 ```
     [avatar]
-        url = http://example.org/avatars/%s.jpg
+        url = http://example.org/avatars/${user}.jpg
         changeUrl = http://example.org/account.html
         sizeParameter = s=${size}x${size}
         lowerCase = true
