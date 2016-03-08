@@ -81,7 +81,11 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
       String User = OUser.get();
       avatarUrl.append(replaceInUrl(externalAvatarUrl, User));
       if (imageSize > 0 && sizeParameter != null) {
-        avatarUrl.append("?");
+	if (avatarUrl.indexOf("?") < 0) {
+          avatarUrl.append("?");
+        } else {
+          avatarUrl.append("&");
+        }
         avatarUrl.append(sizeParameter.replaceAll("\\$\\{size\\}",
                 Integer.toString(imageSize)));
       }
