@@ -39,6 +39,7 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
   private String externalAvatarUrl;
   private String avatarChangeUrl;
   private String sizeParameter;
+  private boolean lowerCase;
 
   @Inject
   ExternalUrlAvatarProvider(@CanonicalWebUrl @Nullable String canonicalUrl,
@@ -46,6 +47,7 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
     externalAvatarUrl = cfg.getString("avatar", null, "url");
     avatarChangeUrl = cfg.getString("avatar", null, "changeUrl");
     sizeParameter = cfg.getString("avatar", null, "sizeParameter");
+    lowerCase = cfg.getBoolean("avatar", "lowerCase", false);
     ssl = canonicalUrl != null && canonicalUrl.startsWith("https://");
   }
 
@@ -76,7 +78,7 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
     StringBuilder avatarUrl = new StringBuilder();
     Optional<String> OUser = forUser.getUserName();
     String User = OUser.get();
-    avatarUrl.append(replaceInUrl(externalAvatarUrl, User.toLowerCase()));
+    avatarUrl.append(replaceInUrl(externalAvatarUrl, User));
     if (imageSize > 0 && sizeParameter != null) {
       avatarUrl.append("?");
       avatarUrl.append(sizeParameter.replaceAll("\\$\\{size\\}",
@@ -90,7 +92,7 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
 
     Optional<String> OUser = forUser.getUserName();
     String User = OUser.get();
-    return replaceInUrl(avatarChangeUrl, User.toLowerCase());
+    return replaceInUrl(avatarChangeUrl, User);
   }
 
   /**
@@ -105,6 +107,9 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
     if (replacement == null || url == null
         || url.contains(REPLACE_MARKER) == false) {
       return url;
+    }
+    if (lowerCase) {
+      replacement = replacement.toLowerCase();
     }
 
     // as we can't assume anything of 'replacement', we're URL encoding it

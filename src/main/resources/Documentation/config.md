@@ -10,6 +10,8 @@ Options:
   the user, where the avatar can be changed. Optional.
 * `avatar.sizeParameter` - URL parameter with `${size}` placeholder to
   forward the preferred image size to the avatar provider. Optional.
+* `avatar.lowerCase`  - Convert the username and email to lower case.
+  Default value = false. Optional.
 
 Example (to be added to `etc/gerrit.config`):
 
@@ -18,6 +20,7 @@ Example (to be added to `etc/gerrit.config`):
         url = http://example.org/avatars/%s.jpg
         changeUrl = http://example.org/account.html
         sizeParameter = s=${size}x${size}
+        lowerCase = true
 ```
 
 Please note that `http://` URLs will be automatically rewritten to
