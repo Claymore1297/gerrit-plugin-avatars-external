@@ -42,7 +42,8 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
   private boolean lowerCase;
 
   @Inject
-  ExternalUrlAvatarProvider(@CanonicalWebUrl @Nullable String canonicalUrl,
+  ExternalUrlAvatarProvider(
+      @CanonicalWebUrl @Nullable String canonicalUrl,
       @GerritServerConfig Config cfg) {
     externalAvatarUrl = cfg.getString("avatar", null, "url");
     avatarChangeUrl = cfg.getString("avatar", null, "changeUrl");
@@ -56,7 +57,8 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
 
     if (externalAvatarUrl == null) {
       Logger log = LoggerFactory.getLogger(ExternalUrlAvatarProvider.class);
-      log.warn("Avatar URL is not configured, cannot show avatars. Please configure avatar.url in etc/gerrit.config");
+      log.warn(
+          "Avatar URL is not configured, cannot show avatars. Please configure avatar.url in etc/gerrit.config");
       return null;
     }
 
@@ -64,9 +66,12 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
     // warning if we can't find our marker (%s)
     if (!externalAvatarUrl.contains(REPLACE_MARKER)) {
       Logger log = LoggerFactory.getLogger(ExternalUrlAvatarProvider.class);
-      log.warn("Avatar provider url '" + externalAvatarUrl
-          + "' does not contain " + REPLACE_MARKER
-          + ", so cannot replace it with username");
+      log.warn(
+          "Avatar provider url '"
+	  + externalAvatarUrl +
+          "' does not contain "
+	  + REPLACE_MARKER +
+          ", so cannot replace it with username");
       return null;
     }
 
@@ -102,8 +107,8 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
   }
 
   /**
-   * Takes #{replacement} and substitutes the marker REPLACE_MARKER in #{url}
-   * after it has been URL encoded
+   * Takes #{replacement} and substitutes the marker REPLACE_MARKER in #{url}   * after it has been URL
+   * encoded
    *
    * @param url The URL, usually containing #{REPLACE_MARKER}
    * @param replacement String to be put inside
