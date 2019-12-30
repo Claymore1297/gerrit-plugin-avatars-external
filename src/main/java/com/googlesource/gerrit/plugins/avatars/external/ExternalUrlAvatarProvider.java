@@ -23,6 +23,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Optional;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -73,7 +74,9 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
       externalAvatarUrl = externalAvatarUrl.replace("http://", "https://");
     }
     StringBuilder avatarUrl = new StringBuilder();
-    avatarUrl.append(replaceInUrl(externalAvatarUrl, forUser.getUserName()));
+    Optional<String> OUser = forUser.getUserName();
+    String User = OUser.get();
+    avatarUrl.append(replaceInUrl(externalAvatarUrl, User.toLowerCase()));
     if (imageSize > 0 && sizeParameter != null) {
       avatarUrl.append("?");
       avatarUrl.append(sizeParameter.replaceAll("\\$\\{size\\}",
@@ -85,7 +88,9 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
   @Override
   public String getChangeAvatarUrl(IdentifiedUser forUser) {
 
-    return replaceInUrl(avatarChangeUrl, forUser.getUserName());
+    Optional<String> OUser = forUser.getUserName();
+    String User = OUser.get();
+    return replaceInUrl(avatarChangeUrl, User.toLowerCase());
   }
 
   /**
