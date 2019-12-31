@@ -102,7 +102,10 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
   public String getChangeAvatarUrl(IdentifiedUser forUser) {
 
     Optional<String> OUser = forUser.getUserName();
-    String User = OUser.get();
+    String User = null;
+    if (OUser.isPresent()) {
+      User = OUser.get();
+    }
     return replaceInUrl(avatarChangeUrl, User);
   }
 
