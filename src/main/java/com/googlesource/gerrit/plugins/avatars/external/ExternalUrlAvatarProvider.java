@@ -77,12 +77,14 @@ public class ExternalUrlAvatarProvider implements AvatarProvider {
     }
     StringBuilder avatarUrl = new StringBuilder();
     Optional<String> OUser = forUser.getUserName();
-    String User = OUser.get();
-    avatarUrl.append(replaceInUrl(externalAvatarUrl, User));
-    if (imageSize > 0 && sizeParameter != null) {
-      avatarUrl.append("?");
-      avatarUrl.append(sizeParameter.replaceAll("\\$\\{size\\}",
-          Integer.toString(imageSize)));
+    if (OUser.isPresent()) {
+      String User = OUser.get();
+      avatarUrl.append(replaceInUrl(externalAvatarUrl, User));
+      if (imageSize > 0 && sizeParameter != null) {
+        avatarUrl.append("?");
+        avatarUrl.append(sizeParameter.replaceAll("\\$\\{size\\}",
+                Integer.toString(imageSize)));
+      }
     }
     return avatarUrl.toString();
   }
